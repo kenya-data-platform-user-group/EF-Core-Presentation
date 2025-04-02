@@ -17,6 +17,24 @@
 
 ---
 
+# Introduction
+
+**Brian Kemboi**
+
+**Microsoft Most Valuable Professional - .NET**
+
+**Co-lead at Kenya Data Platform**
+
+![1743626547901](image/Readme/1743626547901.jpg)
+
+### Social Media
+
+[LinkedIn](https://www.linkedin.com/in/kibichii-brian/)
+
+[X](https://x.com/kibichii_brian)
+
+[Website](https://www.briankemboi.me/)
+
 # Why EF Core?
 
 ## Quick Story/Example
@@ -70,7 +88,7 @@ EF Core is database-agnostic and supports multiple database providers, including
 
 # New Features in EF Core (.NET 9)
 
-## 2️⃣ Enhanced Raw SQL Queries
+## Enhanced Raw SQL Queries
 
 - Enables safer and more efficient execution of raw SQL statements.
 - Improves mapping results directly to entity models.
@@ -118,29 +136,32 @@ In Visual Studio, click on Tools-Nuget Package Manager and search - **Microsoft.
 
 ---
 
-# List of other packages we need to Scafold
+## List of Other Packages We Need to Scaffold
 
-1. Microsoft.EntityFrameworkCore.Design
+1. **Microsoft.EntityFrameworkCore.Design**
 
-- used for
+   - Provides design-time tools for EF Core, such as scaffolding and migrations.
+   - Required for generating models from an existing database.
+2. **Microsoft.EntityFrameworkCore.SqlServer**
 
-2. Microsoft.EntityFrameworkCore.SqlServer
+   - Adds support for SQL Server as a database provider.
+   - Essential for applications using SQL Server as the backend.
+3. **Microsoft.EntityFrameworkCore.Tools**
 
-- used for
+   - Provides command-line tools for EF Core, such as `dotnet ef` commands.
+   - Used for managing migrations and database updates.
+4. **Microsoft.VisualStudio.Web.CodeGeneration.Design**
 
-3. Microsoft.EntityFrameworkCore.Tools
+   - Enables scaffolding of controllers, views, and other components in ASP.NET Core projects.
+   - Useful for quickly generating boilerplate code.
+5. **Npgsql.EntityFrameworkCore.PostgreSQL**
 
-- used for
-
-4. Microsoft.VisualStudio.Web.CodeGeneration.Design
-
-- used for
-
-5. Npgsql.EntityFrameworkCore.PostgreSQL
-
-- used for
+   - Adds support for PostgreSQL as a database provider.
+   - Required for applications using PostgreSQL or Azure Cosmos DB for PostgreSQL.
 
 ![Installing Microsoft.EntityFrameworkCore](./Screenshots/AllinstalledPackages.png "Microsoft.EntityFrameworkCore")
+
+---
 
 # Defining Models and Relationships
 
@@ -149,6 +170,9 @@ In Visual Studio, click on Tools-Nuget Package Manager and search - **Microsoft.
 We will create a simple blog management system to practice skills on EF Core.
 
 ### Example:  Author and Blog
+
+1. Create **Models** Folder
+2. Add **Author.cs** and **Blog.cs**
 
 # Data Annotations vs Fluent API
 
@@ -258,7 +282,7 @@ Sharding is a database architecture pattern that:
 
 # Understanding Database Sharding
 
-## 🧩 What is Sharding?
+## What is Sharding?
 
 **Sharding** is a horizontal partitioning technique that splits a database into smaller, faster, more manageable pieces called **shards**. Each shard:
 
@@ -275,7 +299,7 @@ Imagine a library (database) growing too large for one building:
   - Each branch contains books for certain letters (partition key)
   - Patrons go directly to the relevant branch
 
-## 🔍 How Sharding Works (Deep Dive)
+## How Sharding Works (Deep Dive)
 
 ### 1. Partition Key Selection
 
@@ -333,11 +357,11 @@ We shall be connecting to azure cosmosDB for postgres
 
 # Migrations and Database Operations
 
-## 1️⃣ EF Core Migrations
+## EF Core Migrations
 
 Migrations are a way to apply changes to the database schema based on your model classes.
 
-Create AppDbContext.cs in the Models Folder
+Create **AppDbContext.cs** in the Models Folder
 
 ```csharp
 public class AppDbContext: DbContext
@@ -364,17 +388,23 @@ public class AppDbContext: DbContext
 
 ```
 
-dotnet aspnet-codegenerator controller -name BlogController -async -api -m Blog -dc AppDbContext -outDir Controllers
+Register the DbContext in Program.cs
 
-# Scafolding
+```csharp
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("CosmosPostgres")));
 
-- Create Cintrollers for Blog
+```
+
+# Scaffolding
+
+- Create Controllers for Blog
 
 ```bash
 dotnet aspnet-codegenerator controller -name AuthorController -async -api -m Author -dc AppDbContext -outDir Controllers 
 ```
 
-- Create Cintrollers for Author
+- Create Controllers for Author
 
 ```bash
 dotnet aspnet-codegenerator controller -name BlogController -async -api -m Blog -dc AppDbContext -outDir Controllers 
@@ -415,7 +445,7 @@ Update-Database
 # Basic CRUD Operations - Demo
 
 - Add BlogDTO
-  Create BlogDTO in Resources folder
+  Create **BlogDTO.cs** in Resources folder
 
 ```csharp
     public class BlogDTO
@@ -600,17 +630,9 @@ private bool BlogExists(int id)
 
 # Performance and Best Practices
 
-## 1️⃣ AsNoTracking
+## Optimizing Queries with Projections
 
-Use **AsNoTracking** for read-only operations to improve performance.
-
-```csharp
-
-var users = await context.Users.AsNoTracking().ToListAsync();
-
-```
-
-## 2️⃣ Optimizing Queries with Projections
+Query the data you need.
 
 ```csharp
 var userNames = await context.Users
@@ -621,47 +643,22 @@ var userNames = await context.Users
 
 ---
 
-# Handling Concurrency in EF Core
-
-## Example: Using a Timestamp for Concurrency
-
-```csharp
-public class User
-{
-    public int Id { get; set; }
-    public string Name { get; set; }
-    public byte[] RowVersion { get; set; } // RowVersion column
-}
-
-try
-{
-    await context.SaveChangesAsync();
-}
-catch (DbUpdateConcurrencyException)
-{
-    // Handle concurrency conflict (e.g., notify user)
-}
-```
-
----
-
 # Closing
 
-## 1️⃣ Recap Key Takeaways
+## Recap Key Takeaways
 
 - EF Core simplifies database interactions in .NET applications.
 - New features in EF Core 9 improve performance, raw SQL execution, and LINQ translation.
 - You can easily define models, relationships, and apply migrations.
 - CRUD operations are straightforward with async support.
-- Best practices like **AsNoTracking** and projections improve query performance.
 - Concurrency handling in EF Core helps prevent conflicts in multi-user scenarios.
 
-## 2️⃣ Useful Resources
+## Useful Resources
 
 - **Microsoft Docs**:[EF Core Documentation](https://docs.microsoft.com/en-us/ef/core/)[Getting Started with EF Core](https://docs.microsoft.com/en-us/ef/core/get-started/)
-- **EF Core GitHub Repository**:
+- **Code GitHub Repository**:
   [EF Core GitHub](https://github.com/dotnet/efcore)
 
-## 3️⃣ Q&A
+## Q&A
 
 Feel free to ask any questions about EF Core, .NET, or anything covered in today’s talk!
