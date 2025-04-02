@@ -1,0 +1,87 @@
+@BlogAPI_EFCore_HostAddress = http://localhost:5268
+
+
+### Author Endpoints ###
+
+# Create a new Author
+POST {{BlogAPI_EFCore_HostAddress}}/api/author
+Content-Type: application/json
+
+{
+  "Name": "Victor",
+  "Email": "peace@gmail.com"
+}
+
+###
+
+# Get all Authors
+GET {{BlogAPI_EFCore_HostAddress}}/api/author
+
+###
+
+# Get a specific Author by ID
+GET {{BlogAPI_EFCore_HostAddress}}/api/author/1
+
+###
+
+# Update an existing Author
+PUT {{BlogAPI_EFCore_HostAddress}}/api/author/1
+Content-Type: application/json
+
+{
+  "Id": 1,
+  "Name": "Kemboi Updated",
+  "Email": "Kemboi@gmail.com"
+}
+
+###
+
+# Delete an Author by ID
+DELETE {{BlogAPI_EFCore_HostAddress}}/api/author/1
+
+###
+
+### Blog Endpoints ###
+
+# Create a new Blog
+POST {{BlogAPI_EFCore_HostAddress}}/api/blog
+Content-Type: application/json
+
+{
+  "Title": "My Second Blog",
+  "Content": "This is the content of my first blog.",
+  "Tags": ["Introduction", "FirstPost"],
+  "AuthorId": 2
+}
+
+###
+
+# Get all Blogs
+GET {{BlogAPI_EFCore_HostAddress}}/api/blog
+
+###
+
+# Get a specific Blog by ID
+GET {{BlogAPI_EFCore_HostAddress}}/api/blog/2
+
+###
+
+# Update an existing Blog
+PUT {{BlogAPI_EFCore_HostAddress}}/api/blog/1
+Content-Type: application/json
+
+{
+  "Id": 1,
+  "Title": "My First Blog Updated",
+  "Content": "This is the updated content of my first blog.",
+  "Tags": ["Introduction", "FirstPost", "Updated"],
+  "AuthorId": 2
+}
+
+###
+
+# Delete a Blog by ID
+DELETE {{BlogAPI_EFCore_HostAddress}}/api/blog/3
+
+###
+
