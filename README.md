@@ -341,15 +341,13 @@ Shard 3 (APAC):
 2. **Data is partitioned** using consistent hashing
 3. **Queries are routed** to relevant shards automatically
 
-```sql
--- Make a table distributed
-SELECT create_distributed_table('orders', 'customer_id');
 
 # Adding Connection string
+
 We shall be connecting to azure cosmosDB for postgres
 
 ```json
-  "ConnectionStrings": {
+"ConnectionStrings": {
     "CosmosPostgres": "Server=c-dotnetprostgres.p4uyheg6kn4ww2.postgres.cosmos.azure.com;Database=citus;Port=5432;User Id=citus;Password=dotnetConf@2025;Ssl Mode=Require;"
   }
 
@@ -362,6 +360,8 @@ We shall be connecting to azure cosmosDB for postgres
 Migrations are a way to apply changes to the database schema based on your model classes.
 
 Create **AppDbContext.cs** in the Models Folder
+
+A DbContext in Entity Framework Core is a class that represents a session with the database and allows querying and saving data. 
 
 ```csharp
 public class AppDbContext: DbContext
@@ -389,6 +389,8 @@ public class AppDbContext: DbContext
 ```
 
 Register the DbContext in Program.cs
+
+Involves configuring the dependency injection container to use Entity Framework Core with a PostgreSQL database. The method registers the AppDbContext with the dependency injection container
 
 ```csharp
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -445,7 +447,15 @@ Update-Database
 # Basic CRUD Operations - Demo
 
 - Add BlogDTO
-  Create **BlogDTO.cs** in Resources folder
+  A Data Transfer Object (DTO) is a simple object used to transfer data between different parts of an application, particularly between the client and server. In the context of BlogDTO.cs, the BlogDTO and AuthorDTO classes are used to encapsulate the data related to blogs and authors, respectively, and transfer this data over the network.
+
+#### **DTOs are typically used to:**
+
+1. Simplify data structures for transfer.
+2. Decouple the internal data models from the external data representation.
+3. Reduce the amount of data sent over the network by excluding unnecessary fields.
+
+Create **BlogDTO.cs** in Resources folder
 
 ```csharp
     public class BlogDTO
